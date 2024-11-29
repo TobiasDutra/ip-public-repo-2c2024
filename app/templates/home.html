@@ -1,9 +1,9 @@
-{% extends 'header.html' %} {% block content %}
+{% extends 'header.html' %}
+{% block content %}
 <main>
-    <h1 class="text-center">Buscador Rick & Morty</h1>
+    <h1 class="text-center mb-5 text-primary">Buscador Rick & Morty</h1> <!-- Clase text-primary para color azul -->
 
-    <div class="d-flex justify-content-end" style="margin-bottom: 1%; margin-right: 2rem;">
-        <!-- Selector de página -->
+    <div class="d-flex justify-content-center" style="margin-bottom: 1%; margin-right: 2rem;">
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item disabled">
@@ -24,7 +24,6 @@
     </div>
 
     <div class="d-flex justify-content-center" style="margin-bottom: 1%">
-        <!-- Buscador del sitio -->
         <form class="d-flex" action="{% url 'buscar' %}" method="POST">
             {% csrf_token %}
             <input class="form-control me-2" type="text" value="{{ query }}" name="query" placeholder="Escribí una palabra" aria-label="Search">
@@ -35,48 +34,48 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% if images|length == 0 %}
         <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
-        {% else %} {% for img in images %}
-        <div class="col">
-            <div class="card mb-3 ms-5" style="max-width: 540px;">
-                <div class="row g-0" style="border: 3px solid {% if img.status == 'Alive' %} green {% elif img.status == 'Dead' %} red{% else %} orange{% endif %};">
-                    <div class="col-md-4">
-                        <img src="{{ img.url }}" class="card-img-top" alt="imagen">
-                    </div>
+        {% else %}
+        {% for img in images %}
+        <div class="col d-flex justify-content-center">
+            <div class="card mb-3 d-flex flex-column align-items-center" style="width: auto; border: 6px solid {% if img.status == 'Alive' %} green {% elif img.status == 'Dead' %} red {% else %} orange {% endif %};">
+                <img src="{{ img.url }}" class="card-img-top" alt="imagen" style="max-width: 100%; height: auto;">
 
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h3 class="card-title">{{ img.name }}</h3>
-                            <p class="card-text">
-                                <strong>
-                                            {% if img.status == 'Alive' %} 🟢 {{ img.status }} 
-                                            {% elif img.status == 'Dead' %} 🔴 {{ img.status }} 
-                                            {% else %} 🟠 {{ img.status }} 
-                                            {% endif %}
-                                        </strong>
-                            </p>
-                            <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small></p>
-                            <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
-                        </div>
-                        {% if request.user.is_authenticated %}
-                        <div class="card-footer text-center">
-                            <form method="post" action="{% url 'agregar-favorito' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="name" value="{{ img.name }}">
-                                <input type="hidden" name="url" value="{{ img.url }}">
-                                <input type="hidden" name="status" value="{{ img.status }}">
-                                <input type="hidden" name="last_location" value="{{ img.last_location }}">
-                                <input type="hidden" name="first_seen" value="{{ img.first_seen }}"> {% if img in favourite_list %}
-                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button> {% else %}
-                                <input type="hidden" name="id" value="123">
-                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button> {% endif %}
-                            </form>
-                        </div>
-                        {% endif %}
-                    </div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ img.name }}</h3>
+                    <p class="card-text">
+                        <strong>
+                            {% if img.status == 'Alive' %} 🟢 {{ img.status }} 
+                            {% elif img.status == 'Dead' %} 🔴 {{ img.status }} 
+                            {% else %} 🟠 {{ img.status }} 
+                            {% endif %}
+                        </strong>
+                    </p>
+                    <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
                 </div>
+
+                {% if request.user.is_authenticated %}
+                <div class="card-footer text-center">
+                    <form method="post" action="{% url 'agregar-favorito' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="name" value="{{ img.name }}">
+                        <input type="hidden" name="url" value="{{ img.url }}">
+                        <input type="hidden" name="status" value="{{ img.status }}">
+                        <input type="hidden" name="last_location" value="{{ img.last_location }}">
+                        <input type="hidden" name="first_seen" value="{{ img.first_seen }}">
+                        {% if img in favourite_list %}
+                        <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button>
+                        {% else %}
+                        <input type="hidden" name="id" value="123">
+                        <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button>
+                        {% endif %}
+                    </form>
+                </div>
+                {% endif %}
             </div>
         </div>
-        {% endfor %} {% endif %}
+        {% endfor %}
+        {% endif %}
     </div>
 </main>
 {% endblock %}

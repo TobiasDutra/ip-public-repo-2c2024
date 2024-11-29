@@ -25,6 +25,7 @@ def search(request):
         images = services.getAllImages(search_msg)
         favourite_list = services.getAllFavourites(request)# Si deseas añadir favoritos 
         return render(request, 'home.html', {'images': images, 'favourite_list': favourite_list, 'query': search_msg})
+    return redirect('home')
 
 
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
