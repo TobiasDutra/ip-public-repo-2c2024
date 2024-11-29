@@ -21,17 +21,20 @@ def search(request):
 
     # si el texto ingresado no es vacío, trae las imágenes y favoritos desde services.py,
     # y luego renderiza el template (similar a home).
-    if (search_msg != ''):
-        pass
-    else:
-        return redirect('home')
+    if search_msg:
+        images = services.getAllImages(search_msg)
+        favourite_list = []  # Si deseas añadir favoritos 
+        return render(request, 'home.html', {'images': images, 'favourite_list': favourite_list, 'query': search_msg})
+    return redirect('home')
+
+
 
 
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
 @login_required
 def getAllFavouritesByUser(request):
-    favourite_list = []
-    return render(request, 'favourites.html', { 'favourite_list': favourite_list })
+    favourite_list = services.getAllFavourites(request)
+    return render(request, 'favourites.html', {'favourite_list': favourite_list})
 
 @login_required
 def saveFavourite(request):

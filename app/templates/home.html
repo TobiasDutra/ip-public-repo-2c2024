@@ -27,7 +27,7 @@
         <!-- Buscador del sitio -->
         <form class="d-flex" action="{% url 'buscar' %}" method="POST">
             {% csrf_token %}
-            <input class="form-control me-2" type="search" name="query" placeholder="Escribí una palabra" aria-label="Search">
+            <input class="form-control me-2" type="text" value="{{ query }}" name="query" placeholder="Escribí una palabra" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
     </div>
@@ -67,6 +67,7 @@
                                 <input type="hidden" name="last_location" value="{{ img.last_location }}">
                                 <input type="hidden" name="first_seen" value="{{ img.first_seen }}"> {% if img in favourite_list %}
                                 <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button> {% else %}
+                                <input type="hidden" name="id" value="123">
                                 <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button> {% endif %}
                             </form>
                         </div>
