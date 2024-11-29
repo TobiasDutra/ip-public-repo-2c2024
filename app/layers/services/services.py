@@ -30,7 +30,6 @@ def getAllFavourites(request):
         return []
     else:
         user = get_user(request)
-        # buscamos desde el repositories.py TODOS los favoritos del usuario (variable 'user').
         favourite_list = repositories.getAllFavourites(user) 
         mapped_favourites = []
 
