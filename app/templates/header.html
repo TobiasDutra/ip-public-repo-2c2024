@@ -39,14 +39,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'index-page' %}">Inicio</a>
+                        <a class="nav-link active" {% if request.path == '/' %} style="text-decoration: underline; font-weight: bold; color: #8fbcff;" {% endif %} aria-current="page" href="{% url 'index-page' %}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><strong>Galería</strong></a>
+                        <a class="nav-link active" {% if request.path == '/home/' %} style="text-decoration: underline; color: #8fbcff;" {% endif %} aria-current="page" href="{% url 'home' %}"><strong>Galería</strong></a>
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'favoritos' %}">Favoritos</a>
+                        <a class="nav-link" {% if request.path == '/login' %} style="text-decoration: underline; color: #8fbcff;" {% endif %} href="{% url 'favoritos' %}">Favoritos</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
